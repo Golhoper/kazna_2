@@ -1,4 +1,4 @@
-from ddd_back_lib.domain.exceptions import (
+from generic.domain.exceptions import (
     DomainError,
     EntityFieldError,
     ExternalServiceError,
@@ -6,12 +6,11 @@ from ddd_back_lib.domain.exceptions import (
     NotFoundError,
     PermissionAccessError,
 )
-from ddd_back_lib.utils.log_levels import LogLevel
+from generic.utils.log_levels import LogLevel
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from loguru import logger
 from pydantic import ValidationError
-from sentry_sdk import capture_exception
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
@@ -27,9 +26,6 @@ def _log_domain_exception(exc: DomainError) -> None:
         log_func = logger.error
 
     log_func(exc.as_dict(include_tech_details=True))
-
-    if exc.log_level == LogLevel.ERROR:
-        capture_exception(exc)
 
 
 def _handle_not_found_error(request: Request, exc: NotFoundError) -> Response:  # noqa: ARG001
@@ -88,7 +84,6 @@ def handle_validation_error(request: Request, exc: RequestValidationError | Vali
 
 def handle_unexpected_error(request: Request, exc: Exception) -> Response:  # noqa: ARG001
     """Обработчик всех остальных исключений."""
-    capture_exception(exc)
     logger.error(exc)
     err_content = {"message": "Произошла непредвиденная ошибка. Мы уже работаем над её устранением."}
     return JSONResponse(err_content, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

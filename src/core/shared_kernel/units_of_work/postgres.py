@@ -1,5 +1,5 @@
-from ddd_back_lib.domain.bounded_events import BoundedEventsProcessor
-from ddd_back_lib.units_of_work.base import BaseUnitOfWork
+from generic.domain.bounded_events import BoundedEventsProcessor
+from generic.units_of_work.base import BaseUnitOfWork
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 class UnitOfWork(BaseUnitOfWork):

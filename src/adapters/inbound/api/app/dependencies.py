@@ -1,38 +1,14 @@
-from typing import Annotated
+from starlette.requests import Request
 
-from fastapi import Depends
-
-from adapters.outbound.http import SigningClient
-from adapters.outbound.http.kadr.client import KadrClient
-from adapters.outbound.http.kazna.client import KaznaClient
-from adapters.outbound.s3.service import S3StorageService
-from core.acts.application.ports.outbound.file_storage import IFileStorageService
+from adapters.outbound.redis.client import AsyncRedisClient
+from core.shared_kernel.units_of_work.postgres import UnitOfWork
 
 
-def get_file_storage() -> IFileStorageService:
-    """Dependency для получения файлового хранилища."""
-    return S3StorageService()
+def get_uow_from_request(request: Request) -> UnitOfWork:
+    """Возвращает uow из запроса."""
+    return request.app.state.uow_class(request.app.state.db_session_factory)
 
 
-def get_kazna_client() -> KaznaClient:
-    """Dependency для получения клиента сервиса АС Казны."""
-    return KaznaClient()
-
-
-def get_signing_client() -> SigningClient:
-    """Dependency для получения клиента сервиса АС Подписания."""
-    return SigningClient()
-
-
-def get_kadr_client() -> KadrClient:
-    """Dependency для получения клиента сервиса HR 1C."""
-    return KadrClient()
-
-
-FileStorageDep = Annotated[IFileStorageService, Depends(get_file_storage)]
-
-KaznaClientDep = Annotated[KaznaClient, Depends(get_kazna_client)]
-
-SigningClientDep = Annotated[SigningClient, Depends(get_signing_client)]
-
-KadrClientDep = Annotated[KadrClient, Depends(get_kadr_client)]
+def get_redis_client(request: Request) -> AsyncRedisClient:
+    """Возвращает клиент Redis."""
+    return request.app.state.redis_client
