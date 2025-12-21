@@ -7,7 +7,6 @@ from loguru import logger
 
 from __version__ import __version__
 from adapters.config.settings import settings
-from adapters.inbound.admin.app import act_admin
 from adapters.inbound.api.app.exception_handlers import register_common_exception_handlers
 from adapters.inbound.api.app.integrations.initialize import initialize_integrations
 from adapters.inbound.api.app.integrations.teardown import teardown_integrations
@@ -43,5 +42,4 @@ def create_app() -> FastAPI:
     setup_middlewares(app)
     app.include_router(api_router)
     register_common_exception_handlers(app)
-    act_admin.mount_to(app)
     return app

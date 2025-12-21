@@ -1,6 +1,10 @@
-def main():
-    print("Hello from training!")
+import uvicorn
 
-
+# Для разработки из-под виртуального окружения.
 if __name__ == "__main__":
-    main()
+    uvicorn.run(
+        "adapters.inbound.api.app.app:create_app",
+        factory=True,
+        reload=True,
+        reload_dirs=["src"],
+    )
