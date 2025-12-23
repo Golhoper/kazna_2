@@ -25,7 +25,7 @@ async def _lifespan(app: FastAPI) -> AsyncGenerator[None]:
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title=f"Казна 2ю0",
+        title="Казна 2.0",
         version=__version__,
         lifespan=_lifespan,
         swagger_ui_parameters={
