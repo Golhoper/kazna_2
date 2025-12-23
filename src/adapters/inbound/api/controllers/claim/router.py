@@ -1,5 +1,6 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, Body, Path
-from sqlalchemy.sql.annotation import Annotated
 
 from adapters.inbound.api.app.dependencies import get_uow_from_request
 from adapters.inbound.api.controllers.claim.input.claim import ClaimCreateSchemaIn, ClaimUpdateSchemaIn
@@ -19,7 +20,7 @@ async def get_act_controller(
     uow: Annotated[UnitOfWork, Depends(get_uow_from_request)],
 ) -> ClaimDetailSchemaOut:
     async with uow:
-        claim = get.Handler(uow.session).execute(claim_id=claim_id)
+        claim = await get.Handler(uow.session).execute(claim_id=claim_id)
         return ClaimDetailSchemaOut.model_validate(claim)
 
 
@@ -31,7 +32,7 @@ async def create_act_controller(
     payload = create.Payload(system_number=body.system_number)
     created_claim = await create.Command(uow=uow).execute(payload)
     async with uow:
-        claim = get.Handler(uow.session).execute(claim_id=created_claim.id)
+        claim = await get.Handler(uow.session).execute(claim_id=created_claim.id)
         return ClaimDetailSchemaOut.model_validate(claim)
 
 
@@ -45,5 +46,5 @@ async def update_act_controller(
     payload = update.Payload(claim_id=claim_id, update_data=update_data)
     updated_claim = await update.Command(uow=uow).execute(payload)
     async with uow:
-        claim = get.Handler(uow.session).execute(claim_id=updated_claim.id)
+        claim = await get.Handler(uow.session).execute(claim_id=updated_claim.id)
         return ClaimDetailSchemaOut.model_validate(claim)
