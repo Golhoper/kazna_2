@@ -32,3 +32,6 @@ class Claim(SoftDeleteMixin, CreatedUpdatedMixin, BaseEntity):
             is_deleted=is_deleted,
             deleted_at=deleted_at,
         )
+
+    def update(self: Self, system_number: str) -> None:
+        self.system_number = system_number

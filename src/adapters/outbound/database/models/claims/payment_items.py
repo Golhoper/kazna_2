@@ -14,7 +14,6 @@ if typing.TYPE_CHECKING:
     from adapters.outbound.database.models.claims.claims import SaClaim
 
 
-
 class SaPaymentItem(SaSoftDeleteMixin, SaCreatedUpdatedMixin, SaBase):
     """Таблица `Предмет оплаты`."""
 

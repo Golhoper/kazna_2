@@ -1,3 +1,4 @@
+from adapters.outbound.database.repositories.claims.claim import ClaimRepository
 from generic.domain.bounded_events import BoundedEventsProcessor
 from generic.units_of_work.base import BaseUnitOfWork
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
@@ -13,9 +14,11 @@ class UnitOfWork(BaseUnitOfWork):
     ) -> None:
         """Инициализация класса UnitOfWork."""
         super().__init__(session_factory, session=session)
+        self.claim_repository: ClaimRepository
 
     def _init_repositories(self) -> None:
         """Инициализирует репозитории."""
+        self.claim_repository = ClaimRepository(self.session)
 
     def _init_bounded_events_processor(self) -> None:
         """Инициализирует объект обработки событий ограниченного контекста.

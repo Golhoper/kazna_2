@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_PASSWORD: dev
+      POSTGRES_USER: dev
+      POSTGRES_DB: dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-db-data:/var/lib/postgresql
+    healthcheck:
+      test: pg_isready -U dev
+      interval: 2s
+      timeout: 3s
+      retries: 40
+
+  redis:
+    image: redis/redis-stack:latest
+    environment:
+      ALLOW_EMPTY_PASSWORD: 1
+    ports:
+      - "6379:6379"
+      - "8001:8001"  # ADMIN UI
+    volumes:
+      - redis-db-data:/data
+    healthcheck:
+      test: redis-cli ping
+      interval: 1s
+      timeout: 3s
+      retries: 50
+
+
+volumes:
+  postgres-db-data: {}
+  redis-db-data: {}

@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 
 from adapters.config.settings import settings
 from adapters.outbound.database.base import SaBase
+from adapters.outbound.database.models import *
 
 config = context.config
 

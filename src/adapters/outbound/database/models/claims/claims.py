@@ -1,6 +1,6 @@
 import uuid
 from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from adapters.outbound.database.base import SaBase
 from sqlalchemy.dialects import postgresql
 from core.claims.domain.aggregates.claim.types import ClaimId
@@ -20,6 +20,6 @@ class SaClaim(SaSoftDeleteMixin, SaCreatedUpdatedMixin, SaBase):
     system_number: Mapped[str] = mapped_column(String(255))
 
     # Entities
-    payment_items: Mapped[list[SaPaymentItem]] = mapped_column(
+    payment_items: Mapped[list[SaPaymentItem]] = relationship(
         back_populates="claim", cascade="all, delete-orphan"
     )

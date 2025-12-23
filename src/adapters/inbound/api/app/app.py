@@ -6,14 +6,11 @@ from fastapi.responses import ORJSONResponse
 from loguru import logger
 
 from __version__ import __version__
-from adapters.config.settings import settings
 from adapters.inbound.api.app.exception_handlers import register_common_exception_handlers
 from adapters.inbound.api.app.integrations.initialize import initialize_integrations
 from adapters.inbound.api.app.integrations.teardown import teardown_integrations
 from adapters.inbound.api.app.middlewares.setup import setup_middlewares
 from adapters.inbound.api.app.router import api_router
-
-NOT_FOUND_VERSION = "0.0.0"
 
 
 @asynccontextmanager
@@ -28,8 +25,8 @@ async def _lifespan(app: FastAPI) -> AsyncGenerator[None]:
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title=f"Акты и накладные (environment: {settings.project.environment.value}, version: {__version__})",
-        version=NOT_FOUND_VERSION,
+        title=f"Казна 2ю0",
+        version=__version__,
         lifespan=_lifespan,
         swagger_ui_parameters={
             "defaultModelsExpandDepth": 0,  # Скрыть модели по умолчанию
