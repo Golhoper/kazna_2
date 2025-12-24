@@ -39,13 +39,13 @@ class RedisSettings(BaseSettings):
     """Настройки подключения к Redis."""
 
     model_config = SettingsConfigDict(env_prefix="redis_")
-    url: RedisDsn = Field(description="URL для подключения к Redis")
+    url: RedisDsn = Field(default="redis://localhost:6379/0", description="URL для подключения к Redis")
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(extra="ignore", str_strip_whitespace=True)
     db: DatabaseSettings = Field(default_factory=DatabaseSettings, description="Настройки базы данных")
-    # redis: RedisSettings = Field(default_factory=RedisSettings, description="Настройки Redis")
+    redis: RedisSettings = Field(default_factory=RedisSettings, description="Настройки Redis")
 
 
 # # Вычисляет путь к .env файлу из родительской директории
