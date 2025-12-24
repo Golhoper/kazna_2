@@ -13,12 +13,12 @@ class DatabaseSettings(BaseSettings):
     """Настройки подключения к базе данных."""
 
     model_config = SettingsConfigDict(env_prefix="database_")
-    name: Annotated[str, Field(description="Имя базы данных")]
-    username: Annotated[str, Field(description="Имя пользователя для подключения к БД")]
-    password: Annotated[str, Field(description="Пароль для подключения к БД")]
-    host: Annotated[str, Field(description="Хост базы данных")]
-    port: Annotated[int, Field(description="Порт базы данных")]
-    echo: Annotated[bool, Field(description="Флаг для включения/выключения логирования SQL запросов SQLAlchemy")]
+    name: Annotated[str, Field(default="dev", description="Имя базы данных")]
+    username: Annotated[str, Field(default="dev", description="Имя пользователя для подключения к БД")]
+    password: Annotated[str, Field(default="dev", description="Пароль для подключения к БД")]
+    host: Annotated[str, Field(default="localhost", description="Хост базы данных")]
+    port: Annotated[int, Field(default=5432, description="Порт базы данных")]
+    echo: Annotated[bool, Field(default=False, description="Флаг для включения/выключения логирования SQL запросов SQLAlchemy")]
 
     @property
     def url(self) -> str:
@@ -45,19 +45,19 @@ class RedisSettings(BaseSettings):
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(extra="ignore", str_strip_whitespace=True)
     db: DatabaseSettings = Field(default_factory=DatabaseSettings, description="Настройки базы данных")
-    redis: RedisSettings = Field(default_factory=RedisSettings, description="Настройки Redis")
+    # redis: RedisSettings = Field(default_factory=RedisSettings, description="Настройки Redis")
 
 
-# Вычисляет путь к .env файлу из родительской директории
-settings_dir = pathlib.Path(__file__).parent
-env_path = settings_dir.parent.parent.parent / ".env"
+# # Вычисляет путь к .env файлу из родительской директории
+# settings_dir = pathlib.Path(__file__).parent
+# env_path = settings_dir.parent.parent.parent / ".env"
 
-# Явно загрузить переменные из .env файла
-if env_path.exists():
-    load_dotenv(dotenv_path=env_path)
-    logger.info("Переменные окружения загружены из .env файла")
-else:
-    logger.info("Не найден .env файл. Используются только переменные окружения")
+# # Явно загрузить переменные из .env файла
+# if env_path.exists():
+#     load_dotenv(dotenv_path=env_path)
+#     logger.info("Переменные окружения загружены из .env файла")
+# else:
+#     logger.info("Не найден .env файл. Используются только переменные окружения")
 
 # Экземпляр настроек, загружаемых из переменных окружения и .env файла, если он есть.
 settings = Settings()
