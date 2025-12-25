@@ -15,7 +15,7 @@ router = APIRouter(prefix="/claim", tags=["claim"])
 
 
 @router.get(path="/{claim_id}", summary="Возвращает Заявку")
-async def get_act_controller(
+async def get_claim_controller(
     claim_id: Annotated[ClaimId, Path()],
     uow: Annotated[UnitOfWork, Depends(get_uow_from_request)],
 ) -> ClaimDetailSchemaOut:
@@ -25,7 +25,7 @@ async def get_act_controller(
 
 
 @router.post(path="", summary="Создает Заявку")
-async def create_act_controller(
+async def create_claim_controller(
     body: Annotated[ClaimCreateSchemaIn, Body()],
     uow: Annotated[UnitOfWork, Depends(get_uow_from_request)]
 ) -> ClaimDetailSchemaOut:
@@ -37,7 +37,7 @@ async def create_act_controller(
 
 
 @router.patch(path="/{claim_id}", summary="Обновляет Заявку")
-async def update_act_controller(
+async def update_claim_controller(
     claim_id: Annotated[ClaimId, Path()],
     body: Annotated[ClaimUpdateSchemaIn, Body()],
     uow: Annotated[UnitOfWork, Depends(get_uow_from_request)],
