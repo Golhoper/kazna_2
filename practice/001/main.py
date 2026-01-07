@@ -69,3 +69,7 @@ def main() -> None:
     )
     claim2.status = ClaimStatusEnum.rejected
     payment_position2.status = PaymentPositionStatusEnum.rejected
+    print("done")
+
+    
+main()
