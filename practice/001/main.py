@@ -9,7 +9,7 @@ from payment_order import PaymentOrder, PaymentOrderStatusEnum
 #тут надо писать какую-то логику (например создание заявки с его атрибутивным составом)
 def main() -> None:
     claim1 = Claim(
-        id=uuid.uuid4(), number=001, payment_items=[], total_sum=0, status=ClaimStatusEnum.draft
+        id=uuid.uuid4(), number=1, payment_items=[], total_sum=0, status=ClaimStatusEnum.draft
     )
     claim1.total_sum = 10
     
@@ -27,13 +27,13 @@ def main() -> None:
     claim1.status = ClaimStatusEnum.on_approval
 
     payment_position1 = PaymentPosition(
-        id=uuid.uuid4(), number=001, total_sum=10, status=PaymentPositionStatusEnum.draft
+        id=uuid.uuid4(), number=1, total_sum=10, status=PaymentPositionStatusEnum.draft
     )
 
     payment_item1.payment_positions = [payment_position1]
 
     payment_position1 = PaymentPosition(
-        id=uuid.uuid4(), number=001, total_sum=20, status=PaymentPositionStatusEnum.draft
+        id=uuid.uuid4(), number=2, total_sum=20, status=PaymentPositionStatusEnum.draft
     )
 
     payment_item2.payment_positions = [payment_position1]
@@ -57,7 +57,7 @@ def main() -> None:
     claim1.status = ClaimStatusEnum.partialy_paid
 
     claim2 = Claim(
-        id=uuid.uuid4(), number=002, payment_items=[], total_sum=0, status=ClaimStatusEnum.draft
+        id=uuid.uuid4(), number=2, payment_items=[], total_sum=0, status=ClaimStatusEnum.draft
     )
     payment_item3 = PaymentItem(
          id=uuid.uuid4(), payment_positions=[], total_sum=3
@@ -65,7 +65,7 @@ def main() -> None:
     claim2.total_sum = 3
     claim2.status = ClaimStatusEnum.on_approval
     payment_position2 = PaymentPosition(
-         id=uuid.uuid4(), number=002, total_sum=3, status=PaymentPositionStatusEnum.draft
+         id=uuid.uuid4(), number=3, total_sum=3, status=PaymentPositionStatusEnum.draft
     )
     claim2.status = ClaimStatusEnum.rejected
     payment_position2.status = PaymentPositionStatusEnum.rejected
