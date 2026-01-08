@@ -1,10 +1,10 @@
 class BankAccount:
     def __init__(self, balance):
-        self.balance = balance 
+        self._balance = balance 
     
     @property
     def balance(self):
-        return self._balance
+        return self._balance*5
 
     @balance.setter
     def balance(self, value):
@@ -12,8 +12,9 @@ class BankAccount:
             raise ValueError("Баланс не может быть отрицательным")
         self._balance = value
 
-balanc = BankAccount(-5)
-print(balanc._balance)
+bc = BankAccount(1)
+bc.balance=2
+print(bc.balance)
 
 # геттеры и сеттеры нужны чтобы контролировать доступ к атрибутам и валидировать данные.
 #Идея геттеров и сеттеров (очень простыми словами)
